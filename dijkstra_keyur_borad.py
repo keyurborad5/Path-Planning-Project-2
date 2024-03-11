@@ -1,14 +1,16 @@
+
+
 # Consolidating the above steps intp one as building the canvas with ostacles
+import heapq as hq
 import numpy as np
 import cv2
 
+    
 # Define canvas size
 canvas_height = 500
 canvas_width = 1200
-
 # Create canvas
 canvas = np.zeros((canvas_height, canvas_width, 3), dtype=np.uint8)
-
 
 # Define side length of the hexagon
 side_length = 155
@@ -41,6 +43,17 @@ for i in range(120,381):
 for i in range(370,456):
     canvas[i][895:1106][:]=[255,255,255]
 
+#Creating different walls
+for i in range(0,6):
+    canvas[i][0:1201][:]=[255,255,255]
+for i in range(496,500):
+    canvas[i][0:1201][:]=[255,255,255]
+
+for i in range(0,500):
+    canvas[i][0:6][:]=[255,255,255]
+    canvas[i][1196:1201][:]=[255,255,255]
+
+
 print("Canvas shape:", canvas.shape)
 # cv2.imshow('window',canvas)
 # cv2.waitKey(0)
@@ -53,27 +66,27 @@ for i in range(canvas.shape[1]):
         if np.array_equal(canvas[j][i], [255, 255, 255]):
             Obstacle_Space.add((i,-j+500))
 
-
+# def get_input(Obstacle_Space):
 while True:
-    init_x=int(input(print(" Enter initial x values: ")))
-    init_y=int(input(print(" Enter initial y values: ")))
-    if {(init_x,init_y)}.issubset(Obstacle_Space)==False:
+    init_x=int(input(" Enter initial x values: "))
+    init_y=int(input(" Enter initial y values: "))
+    if {(init_x,init_y)}.issubset(Obstacle_Space)==False and 0<=init_x<1200 and 0<=init_y<500:
         break
     else: 
-        print(" enter valid coordinare \n")
-print(init_x,init_y)
+        print(" enter valid coordinates \n")
+print("Initial coordinates: ",init_x,init_y)
 
 while True:
-    final_x=int(input(print(" Enter final x values: ")))
-    final_y=int(input(print(" Enter final y values: ")))
-    if {(final_x,final_y)}.issubset(Obstacle_Space)==False:
+    final_x=int(input(" Enter final x values: "))
+    final_y=int(input(" Enter final y values: "))
+    if {(final_x,final_y)}.issubset(Obstacle_Space)==False  and 0<=final_x<1200 and 0<=final_y<500:
         break
     else: 
-        print(" enter valid coordinare \n")
+        print(" enter valid coordinates \n")
 
-print(final_x,final_y)
+print("Final coordinates",final_x,final_y)
 
-import heapq as hq
+
 def move_up(node):
     return node[3][0],(node[3][1]+1),1
 def move_up_right(node):
@@ -91,7 +104,6 @@ def move_left(node):
 def move_up_left(node):
     return (node[3][0]-1),(node[3][1]+1),1.4
 
-listt=[move_up,move_right,move_down,move_left,move_up_left,move_down_left,move_down_right,move_up_right]
 
 # Creating open and closed lists
 
@@ -108,6 +120,8 @@ c2c=0
 node_index=1
 parent_node_index=0
 cost_to_come=0
+listt=[move_up,move_right,move_down,move_left,move_up_left,move_down_left,move_down_right,move_up_right]
+
 start_node=(cost_to_come,node_index,parent_node_index,(init_x,init_y))
 hq.heappush(open_nodes,start_node)
 
@@ -177,6 +191,7 @@ while (open_nodes and found_goal!=True):
                 else:#For closed_node_flag condition
                     continue        
 
+
 if found_goal==True:
     #Backtracking
     #Visualising the exploration of node
@@ -214,3 +229,5 @@ if found_goal==True:
     cv2.waitKey(0)
     # out.release()
     cv2.destroyAllWindows()
+
+   
