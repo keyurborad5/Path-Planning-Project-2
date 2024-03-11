@@ -1,6 +1,9 @@
-
-
-# Consolidating the above steps intp one as building the canvas with ostacles
+'''
+@author Keyur Borad
+dir id: kborad
+ENPM661 Project2
+'''
+#https://github.com/keyurborad5/Path-Planning-Project-2.git
 import heapq as hq
 import numpy as np
 import cv2
@@ -54,10 +57,8 @@ for i in range(0,500):
     canvas[i][1196:1201][:]=[255,255,255]
 
 
-print("Canvas shape:", canvas.shape)
-# cv2.imshow('window',canvas)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+print("Generated with Canvas shape:", canvas.shape)
+
 
 #using Sets and creating Obstacle space
 Obstacle_Space=set()
@@ -86,7 +87,7 @@ while True:
 
 print("Final coordinates",final_x,final_y)
 
-
+# defining action steps
 def move_up(node):
     return node[3][0],(node[3][1]+1),1
 def move_up_right(node):
@@ -132,15 +133,7 @@ def visited_node(node):
     named_node.update({node[1]:node[3]})
 
 while (open_nodes and found_goal!=True):
-    ######################
-    #Checking termination of while loop
-    # print(hq.heappop(open_nodes))
-    #Checking termination of while loop
-    # i+=1
-    # print(i)
-    # if i==10:
-    #     found_goal=True
-    ######################
+   
     # Fetching the node with lowest c2c from openlist
     current_node=hq.heappop(open_nodes)
     # Pushing the node into closed list
@@ -154,6 +147,7 @@ while (open_nodes and found_goal!=True):
     # Verifying the fetched node is goal node or not
     if current_node[3]==(final_x,final_y):
         print(current_node)
+        #for exiting the loop
         found_goal=True
         ##Backtracking after exiting this while loop
     # If not following code is executed
@@ -161,26 +155,31 @@ while (open_nodes and found_goal!=True):
         
         parent_node_index=current_node[2]
         cost_to_come=current_node[0]
+        #iterating all eight actions
         for action in listt:
             action_output=action(current_node)
+            # Checking the explored node in the canvas region
             if action_output[0]<=1194 and action_output[0]>=5 and action_output[1]<=494 and action_output[1]>=5:
 
                 new_node=action_output[:2]
                 action_c2c=action_output[2]
+                #Checking if the explored node is not in closed set
                 if ({new_node}.issubset(closed_set)==False):
                 
-                
+                    #Checking if the explored node is not part of obstacle space set
                     if {new_node}.issubset(Obstacle_Space)==False:
                             open_node_flag=False
+                            #Iterating explored node through open list
                             for i in range(len(open_nodes)):
                                     if open_nodes[i][3]==new_node:
                                         open_node_flag=True
+                                        # updateing the node cost if cost to come is smaller than existing cost to come
                                         if open_nodes[i][0]>(cost_to_come+action_c2c):
                                             open_nodes[i]=(cost_to_come+action_c2c,open_nodes[i][1],current_node[1],open_nodes[i][3])
                                             break
                                         else:
                                             break
-                            
+                            # if explored node not found in open list then added
                             if open_node_flag==False:
                                 node_index+=1
                                 hq.heappush(open_nodes,(cost_to_come+action_c2c,node_index,current_node[1],new_node))
@@ -196,19 +195,21 @@ if found_goal==True:
     #Backtracking
     #Visualising the exploration of node
 
-    # out = cv2.VideoWriter('keyur_borad_project2.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (1200,500))
+    out = cv2.VideoWriter('keyur_borad_project2.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 90, (1200,500))
 
     canvas_1=canvas
     count=0
     while closed_nodes:
         plot=hq.heappop(closed_nodes)
-        
+        #plotting initial point
         cv2.circle(canvas_1, (init_x,500-init_y), 4, [0,0,252], -1)
-        cv2.circle(canvas_1, (final_x,500-final_y), 4, [0,0,250], -1)
+        #plotting final point
+        cv2.circle(canvas_1, (final_x,500-final_y), 4, [0,255,0], -1)
+        #PLotting the explored node
         cv2.circle(canvas_1, (plot[3][0],500-plot[3][1]), 1, [250,0,0], -1)
-        
+        # counter for speeding up the display
         if count%100==0:
-            # out.write(canvas_1)
+            out.write(canvas_1)
             cv2.imshow('window',canvas_1)
             cv2.waitKey(1)
         count+=1
@@ -222,12 +223,13 @@ if found_goal==True:
         parent=visited_nodes[parent]
     backtrack.reverse()
     for coord in (backtrack):
+        #ploting the backtracked points
         cv2.circle(canvas_1, (coord[0],500-coord[1]), 1, [0,250,0], -1)
-        # out.write(canvas_1)
+        out.write(canvas_1)
         cv2.imshow('window',canvas_1)
         cv2.waitKey(1)
     cv2.waitKey(0)
-    # out.release()
+    out.release()
     cv2.destroyAllWindows()
 
    
