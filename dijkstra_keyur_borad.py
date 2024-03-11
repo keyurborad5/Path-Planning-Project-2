@@ -6,9 +6,10 @@ ENPM661 Project2
 #https://github.com/keyurborad5/Path-Planning-Project-2.git
 import heapq as hq
 import numpy as np
+import time
 import cv2
 
-    
+start_time = time.time()  
 # Define canvas size
 canvas_height = 500
 canvas_width = 1200
@@ -71,7 +72,7 @@ for i in range(canvas.shape[1]):
 while True:
     init_x=int(input(" Enter initial x values: "))
     init_y=int(input(" Enter initial y values: "))
-    if {(init_x,init_y)}.issubset(Obstacle_Space)==False and 5<=init_x<1195 and 5<=init_y<495:
+    if {(init_x,init_y)}.issubset(Obstacle_Space)==False and 5<init_x<1195 and 5<init_y<495:
         break
     else: 
         print(" enter valid coordinates \n")
@@ -80,7 +81,7 @@ print("Initial coordinates: ",init_x,init_y)
 while True:
     final_x=int(input(" Enter final x values: "))
     final_y=int(input(" Enter final y values: "))
-    if {(final_x,final_y)}.issubset(Obstacle_Space)==False  and 5<=final_x<1195 and 5<=final_y<495:
+    if {(final_x,final_y)}.issubset(Obstacle_Space)==False  and 5<final_x<1195 and 5<final_y<495:
         break
     else: 
         print(" enter valid coordinates \n")
@@ -216,7 +217,7 @@ if found_goal==True:
 
     # Visualising Backtracking 
     parent= current_node[2]
-    print(parent)
+    # print(parent)
     backtrack=[]
     while parent!=0:
         backtrack.append(named_node[parent])
@@ -231,5 +232,7 @@ if found_goal==True:
     cv2.waitKey(0)
     out.release()
     cv2.destroyAllWindows()
+end_time = time.time()
+print(f"The runtime of my program is {end_time - start_time} seconds.")
 
    

@@ -8,7 +8,7 @@
 #- Observe the output and look for the saved video in your directory
 #
 #libraries/dependencies used
-#Numpy, OpenCv, Heapq
+#Numpy, OpenCv, Heapq, Time
 
 #Github Repo:
 # https://github.com/keyurborad5/Path-Planning-Project-2.git
