@@ -47,13 +47,13 @@ for i in range(370,456):
     canvas[i][895:1106][:]=[255,255,255]
 
 #Creating different walls
-for i in range(0,6):
+for i in range(0,5):
     canvas[i][0:1201][:]=[255,255,255]
-for i in range(496,500):
+for i in range(495,500):
     canvas[i][0:1201][:]=[255,255,255]
 
 for i in range(0,500):
-    canvas[i][0:6][:]=[255,255,255]
+    canvas[i][0:5][:]=[255,255,255]
     canvas[i][1196:1201][:]=[255,255,255]
 
 
@@ -71,7 +71,7 @@ for i in range(canvas.shape[1]):
 while True:
     init_x=int(input(" Enter initial x values: "))
     init_y=int(input(" Enter initial y values: "))
-    if {(init_x,init_y)}.issubset(Obstacle_Space)==False and 0<=init_x<1200 and 0<=init_y<500:
+    if {(init_x,init_y)}.issubset(Obstacle_Space)==False and 5<=init_x<1195 and 5<=init_y<495:
         break
     else: 
         print(" enter valid coordinates \n")
@@ -80,7 +80,7 @@ print("Initial coordinates: ",init_x,init_y)
 while True:
     final_x=int(input(" Enter final x values: "))
     final_y=int(input(" Enter final y values: "))
-    if {(final_x,final_y)}.issubset(Obstacle_Space)==False  and 0<=final_x<1200 and 0<=final_y<500:
+    if {(final_x,final_y)}.issubset(Obstacle_Space)==False  and 5<=final_x<1195 and 5<=final_y<495:
         break
     else: 
         print(" enter valid coordinates \n")
@@ -195,7 +195,7 @@ if found_goal==True:
     #Backtracking
     #Visualising the exploration of node
 
-    out = cv2.VideoWriter('keyur_borad_project2.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 90, (1200,500))
+    out = cv2.VideoWriter('keyur_borad_project2.mp4',cv2.VideoWriter_fourcc(*'mp4v'), 166, (1200,500))
 
     canvas_1=canvas
     count=0
