@@ -221,7 +221,7 @@ if found_goal==True:
         cv2.circle(canvas_1, (plot[3][0],500-plot[3][1]), 1, [250,0,0], -1)
         # counter for speeding up the display
         if count%100==0:
-            # out.write(canvas_1)
+            out.write(canvas_1)
             cv2.imshow('window',canvas_1)
             cv2.waitKey(1)
         count+=1
@@ -237,7 +237,7 @@ if found_goal==True:
     for coord in (backtrack):
         #ploting the backtracked points
         cv2.circle(canvas_1, (coord[0],500-coord[1]), 1, [0,250,0], -1)
-        # out.write(canvas_1)
+        out.write(canvas_1)
         cv2.imshow('window',canvas_1)
         cv2.waitKey(1)
     cv2.waitKey(0)
